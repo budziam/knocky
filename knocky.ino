@@ -38,18 +38,20 @@ void normalMode(int &x, int &y, int &z)
 {
   readRegister(DEVICE_ADDRESS, DATAX0, 6, values); 
 
-  //The ADXL345 gives 10-bit or 13-bit acceleration values, but they are stored as bytes (8-bits). To get the full value, two bytes must be combined for each axis.
-  
-  //The X value is stored in values[0] and values[1].
-  x = ((int)values[1]<<8)|(int)values[0];
-  
-  //The Y value is stored in values[2] and values[3].
-  y = ((int)values[3]<<8)|(int)values[2];
-  
-  //The Z value is stored in values[4] and values[5].
-  z = ((int)values[5]<<8)|(int)values[4];
+  x = getAccelerationValue(values[0], values[1]);
+  y = getAccelerationValue(values[2], values[3]);
+  z = getAccelerationValue(values[4], values[5]);
   
   delay(15);
+}
+
+/**
+ * The ADXL345 gives 10-bit or 13-bit acceleration values, but they are stored as bytes (8-bits).
+ * To get the full value, two bytes must be combined for each axis.
+ */
+int getAccelerationValue(int youngerByte, int olderByte)
+{
+	return olderByte << 8 | youngerByte;
 }
 
 void writeRegister(byte device, byte registerAddress, byte value)
