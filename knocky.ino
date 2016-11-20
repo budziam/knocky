@@ -30,20 +30,31 @@ void setup()
 
 void loop()
 {
-    printAxis();
+    printAxis(true);
 }
 
-void printAxis()
+void printAxis(bool jsonFormat)
 {
     int x, y, z;
     
     getAxesValues(x, y, z);
     
-    Serial.print(x, DEC);
-    Serial.print("\t\t");
-    Serial.print(y, DEC);
-    Serial.print("\t\t");
-    Serial.print(z, DEC);
+    if (jsonFormat) {
+        Serial.print("{'x': ");
+        Serial.print(x, DEC);
+        Serial.print(", 'y': ");
+        Serial.print(y, DEC);
+        Serial.print(", 'z': ");
+        Serial.print(z, DEC);
+        Serial.print("},");
+    } else {
+        Serial.print(x, DEC);
+        Serial.print("\t\t");
+        Serial.print(y, DEC);
+        Serial.print("\t\t");
+        Serial.print(z, DEC);
+    }
+    
     Serial.println();
 }
 
