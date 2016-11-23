@@ -30,7 +30,7 @@ void setup()
 
 void loop()
 {
-    printAxis(true);
+    printAxis(false);
 }
 
 void printAxis(bool jsonFormat)
@@ -106,7 +106,7 @@ void readRegister(byte device, byte registerAddress, int numBytes, byte *values)
     Wire.requestFrom(device, numBytes); // Request numBytes bytes from device
     
     for(int i = 0; Wire.available() && i < numBytes; ++i) {
-        values[i] = Wire.read()
+        values[i] = Wire.read();
     }
   
     Wire.endTransmission(); 
