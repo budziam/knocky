@@ -10,10 +10,10 @@ void setup()
 
 void loop()
 {
-  printAxis(false);
+  analyzeAcceleratorValues();
 }
 
-void printAxis(bool jsonFormat)
+void analyzeAcceleratorValues()
 {
   static uint32_t previousMillis = millis();
   
@@ -24,7 +24,15 @@ void printAxis(bool jsonFormat)
   int x, y, z;
 
   getAxesValues(x, y, z);
+  knockDetectorPushValues(millis(), x, y, z);
+  
+  printAxis(x, y, z, false);
+  
+  previousMillis = millis();
+}
 
+void printAxis(int x, int y, int z, bool jsonFormat)
+{
   if (jsonFormat) {
     Serial.print("{'x': ");
     Serial.print(x, DEC);
@@ -43,7 +51,5 @@ void printAxis(bool jsonFormat)
   }
 
   Serial.println();
-  
-  previousMillis = millis();
 }
 
