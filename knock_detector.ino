@@ -10,20 +10,12 @@ typedef struct Node {
 } Node;
 
 Node *firstNode;
-Node *lastNode
+Node *lastNode;
 int nodesCount = 0;
-
-/**
- * Analyzes nodes to find a knock
- */
-void seekKnock()
-{
-  
-}
 
 void knockDetectorPushValues(uint32_t millis, int x, int y, int z)
 {
-  pushNode(millis, x, y, z);
+  createAndPushNode(millis, x, y, z);
   
   seekKnock();
 }
@@ -38,7 +30,7 @@ void seekKnock()
 
 void createAndPushNode(uint32_t millis, int x, int y, int z)
 {
-  Node *node = malloc(sizeof(Node));
+  Node *node = (Node*)malloc(sizeof(Node));
   node->millis = millis;
   node->x = x;
   node->y = y;
