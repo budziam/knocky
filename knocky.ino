@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "accelerometer.h"
+#include "knock_detector.h"
 
 void setup()
 {
