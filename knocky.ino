@@ -18,30 +18,26 @@ void analyzeAcceleratorValues()
 {
   static uint32_t previousMillis = millis();
   
-  if (millis() - previousMillis < 10) {
+  if (millis() - previousMillis < 5) {
     return;
   }
   
   int x, y, z;
 
   getAxesValues(x, y, z);
-  knockDetectorPushValues(millis(), x, y, z);
-  
-  printAxis(x, y, z, false);
+  printAxis(x, y, z, true);
   
   previousMillis = millis();
 }
 
-void printAxis(int x, int y, int z, bool jsonFormat)
+void printAxis(int x, int y, int z, bool csvFormat)
 {
-  if (jsonFormat) {
-    Serial.print("{'x': ");
+  if (csvFormat) {
     Serial.print(x, DEC);
-    Serial.print(", 'y': ");
+    Serial.print(",");
     Serial.print(y, DEC);
-    Serial.print(", 'z': ");
+    Serial.print(",");
     Serial.print(z, DEC);
-    Serial.print("},");
   } 
   else {
     Serial.print(x, DEC);
