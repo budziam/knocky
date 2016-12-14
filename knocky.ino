@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "accelerometer.h"
 #include "knock_detector.h"
+#include "knock_listener.h"
 
 void setup()
 {
@@ -8,6 +9,7 @@ void setup()
   
   setupAccelerometer();
   setupKnockDetector();
+  setupKnockListener();
 }
 
 void loop()
