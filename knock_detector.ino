@@ -1,11 +1,11 @@
 #include "knock_listener.h"
+#include "userfull.h"
 
 #define BUFFOR_SIZE 5
 #define SPREAD_SIZE 30
 #define IGNORE_MAX_BELOW 15
-#define MIN_INCREASE 2000
-#define MIN_DECREASE 200
-#define KNOCK_SIZE 20
+#define MIN_INCREASE 1400
+#define MIN_DECREASE 150
 
 int buffor[BUFFOR_SIZE];
 int buffor_start = 0;
@@ -16,7 +16,6 @@ int spread_start = 0;
 int spread_end = 0;
 
 long long unsigned int data_index = 0;
-int last_knock_index = 0;
 
 void setupKnockDetector()
 {
@@ -50,14 +49,6 @@ void calculate()
   if (get_spread_size() < SPREAD_SIZE) {
     return;
   }
- 
-   if (data_index < last_knock_index + KNOCK_SIZE) {
-    return;
-  }
-    
-  if (get_from_spread(-15) >= get_from_spread(-14) || get_from_spread(-14) < get_from_spread(-13)) {
-       return;
-  }
   
   int node = get_from_spread(-14);
   
@@ -65,17 +56,20 @@ void calculate()
     return;
   }
   
-  int min_left = get_spread_min(-19, -14);
-  int min_right = get_spread_min(-12, -4);
+  if (get_from_spread(-15) >= node || node < get_spread_max(-13, -11)) {
+       return;
+  }
+  
+  int min_left = get_spread_min(-19, -15);
+  int min_right = get_spread_min(-13, -8);
   int increase = node / (float) max(1, min_left) * 100;
   int decrease = node / (float) max(1, min_right) * 100;
-    
+  
   if (increase < MIN_INCREASE || decrease < MIN_DECREASE) {
     return;
   }
-    
-  last_knock_index = data_index;
   
+  ardprintf("Kck: %d %d %d(%d) %d(%d)\n", (int) data_index, node, min_left, increase, min_right, decrease);
   onKnock();
 }
 
@@ -176,4 +170,15 @@ int get_spread_min(int left, int right)
   }
   
   return mini;
+}
+
+int get_spread_max(int left, int right)
+{
+  int maxi = get_from_spread(left);
+  
+  for(; left <= right; ++left) {
+    maxi = max(maxi, get_from_spread(left));
+  }
+  
+  return maxi;
 }

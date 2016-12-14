@@ -1,4 +1,4 @@
-#define LED 13;
+#define LED 13
 
 void setupKnockListener() 
 {
@@ -7,5 +7,5 @@ void setupKnockListener()
 
 void onKnock()
 {
-  digitalWrite(LED, !digitalRead(LED))
+  digitalWrite(LED, !digitalRead(LED));
 }
