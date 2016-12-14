@@ -1,3 +1,5 @@
+#include "knock_listener.h"
+
 #define BUFFOR_SIZE 5
 #define SPREAD_SIZE 30
 #define IGNORE_MAX_BELOW 15
@@ -74,7 +76,7 @@ void calculate()
     
   last_knock_index = data_index;
   
-  
+  onKnock();
 }
 
 void insert_to_buffor(int value)
