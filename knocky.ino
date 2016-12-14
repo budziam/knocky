@@ -7,6 +7,7 @@ void setup()
   Serial.begin(9600);
   
   setupAccelerometer();
+  setupKnockDetector();
 }
 
 void loop()
@@ -23,9 +24,9 @@ void analyzeAcceleratorValues()
   }
   
   int x, y, z;
-
   getAxesValues(x, y, z);
-  printAxis(x, y, z, true);
+  
+  knockDetectorPushValue(x, y, z);
   
   previousMillis = millis();
 }
