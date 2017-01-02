@@ -1,12 +1,12 @@
 #include "actions.h"
 
 #define DQ_MIN 0
-#define DQ_MAX 100
+#define DQ_MAX 300
 
-#define DQAOS_FIRST_MIN 200
-#define DQAOS_FIRST_MAX 400
+#define DQAOS_FIRST_MIN 500
+#define DQAOS_FIRST_MAX 1000
 #define DQAOS_SECOND_MIN 0
-#define DQAOS_SECOND_MAX 100
+#define DQAOS_SECOND_MAX 300
 int dqaos_step = 0;
 
 
@@ -16,6 +16,9 @@ void onKnock()
 {
   uint32_t now = millis();
   uint32_t diff = now - last_knock;
+  
+  Serial.print(now, DEC);
+  Serial.print("\n");
   
   if (checkDoubleQuickAfterOneSlow(diff)) {
     Serial.print("Double quick after one slow!");

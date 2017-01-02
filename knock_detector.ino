@@ -69,7 +69,7 @@ void calculate()
     return;
   }
   
-  ardprintf("Kck: %d %d %d(%d) %d(%d)\n", (int) data_index, node, min_left, increase, min_right, decrease);
+  //ardprintf("Kck: %d %d %d(%d) %d(%d)\n", (int) data_index, node, min_left, increase, min_right, decrease);
   onKnock();
 }
 
