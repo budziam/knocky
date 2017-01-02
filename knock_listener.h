@@ -4,11 +4,6 @@
 #include <Arduino.h>
 
 /**
- * Prepare everything to work properly
- */
-void setupKnockListener();
-
-/**
  * Executes when knock happens
  */
 void onKnock();

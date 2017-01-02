@@ -9,7 +9,7 @@ void setup()
   
   setupAccelerometer();
   setupKnockDetector();
-  setupKnockListener();
+  setupActions();
 }
 
 void loop()
