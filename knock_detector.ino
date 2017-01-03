@@ -4,6 +4,8 @@
 #define BUFFOR_SIZE 5
 #define SPREAD_SIZE 30
 #define IGNORE_MAX_BELOW 15
+#define REACH_LEFT 4
+#define REACH_RIGHT 6
 #define MIN_INCREASE 1400
 #define MIN_DECREASE 150
 
@@ -41,36 +43,39 @@ void execute(int value)
   int spread = get_spread();
   insert_to_spread(spread);
   
-  calculate();
+  if (detectKnock()) {
+    //ardprintf("Kck: %d %d %d(%d) %d(%d)\n", (int) data_index, node, min_left, increase, min_right, decrease);
+    onKnock();
+  }
 }
 
-void calculate()
+boolean detectKnock()
 {
   if (get_spread_size() < SPREAD_SIZE) {
-    return;
+    return false;
   }
   
-  int node = get_from_spread(-14);
+  int mid_id = -(SPREAD_SIZE / 2);
+  int node = get_from_spread(mid_id);
   
   if (node < IGNORE_MAX_BELOW) {
-    return;
+    return false;
   }
   
-  if (get_from_spread(-15) >= node || node < get_spread_max(-13, -11)) {
-       return;
+  if (get_from_spread(mid_id - 1) >= node || node < get_spread_max(mid_id + 1, mid_id + 1 + 2)) {
+       return false;
   }
   
-  int min_left = get_spread_min(-19, -15);
-  int min_right = get_spread_min(-13, -8);
+  int min_left = get_spread_min(mid_id - 1 - REACH_LEFT, mid_id - 1);
+  int min_right = get_spread_min(mid_id + 1, mid_id + 1 + REACH_RIGHT);
   int increase = node / (float) max(1, min_left) * 100;
   int decrease = node / (float) max(1, min_right) * 100;
   
   if (increase < MIN_INCREASE || decrease < MIN_DECREASE) {
-    return;
+    return false;
   }
   
-  //ardprintf("Kck: %d %d %d(%d) %d(%d)\n", (int) data_index, node, min_left, increase, min_right, decrease);
-  onKnock();
+  return true;
 }
 
 void insert_to_buffor(int value)
