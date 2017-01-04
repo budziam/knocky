@@ -11,4 +11,14 @@ void setupActions();
  */ 
 void toggle230V();
 
+/**
+ * Change status of device connected to 230V wire
+ */ 
+void change230V(boolean value);
+
+/**
+ * Determine whether 230V is on or off
+ */
+boolean get230VStatus();
+
 #endif

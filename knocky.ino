@@ -15,6 +15,7 @@ void setup()
 void loop()
 {
   analyzeAcceleratorValues();
+  knockListenerLoop();
 }
 
 void analyzeAcceleratorValues()
