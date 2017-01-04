@@ -2,7 +2,8 @@
 
 void setupActions() 
 {
-  pinMode(LED, OUTPUT);     
+  pinMode(LED, OUTPUT);
+  change230V(false);
 }
 
 void toggle230V()
@@ -18,10 +19,10 @@ void change230V(boolean value)
     Serial.print("Off\n");    
   }
   
-  digitalWrite(LED, value);
+  digitalWrite(LED, !value);
 }
 
 boolean get230VStatus()
 {
-  return !!digitalRead(LED);
+  return !digitalRead(LED);
 }

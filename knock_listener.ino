@@ -1,5 +1,6 @@
 #include "actions.h"
 #include "usefull.h"
+#include <math.h>
 
 #define L1_MIN 0
 #define L1_MAX 300
@@ -64,7 +65,7 @@ void analyzeLight(uint32_t diff)
        
     case 2:
       if (L2_MIN <= diff && diff <= L2_MAX) {
-        int light_time = getLightTime(diff);
+        uint32_t light_time = getLightTime(diff);
         turn_off_at = millis() + light_time;
         Serial.print("It will turn off in ");
         Serial.print(light_time, DEC);
@@ -121,7 +122,7 @@ void checkOutdatedValues(uint32_t diff)
   }
 }
 
-int getLightTime(uint32_t diff)
-{
-  return pow(diff / 1000.0, 4.0) * 1000;
+uint32_t getLightTime(uint32_t diff)
+{  
+  return round(pow(diff / 1000.0, 4.0) * 1000);
 }
