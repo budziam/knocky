@@ -26,7 +26,9 @@ void onKnock()
   uint32_t now = millis();
   uint32_t diff = now - last_knock;
   
-  ardprintf("Knock: %d\n", (int)now);
+  Serial.print("Knock: ");
+  Serial.print(now, DEC);
+  Serial.print("\n");
   
   checkOutdatedValues(diff);
   
@@ -62,8 +64,11 @@ void analyzeLight(uint32_t diff)
        
     case 2:
       if (L2_MIN <= diff && diff <= L2_MAX) {
-        turn_off_at = millis() + getLightTime(diff);
-        ardprintf("It will turn off in %d ms\n", (int)getLightTime(diff));
+        int light_time = getLightTime(diff);
+        turn_off_at = millis() + light_time;
+        Serial.print("It will turn off in ");
+        Serial.print(light_time, DEC);
+        Serial.print("ms\n");
       }
       
       light_step = 3;
@@ -116,7 +121,7 @@ void checkOutdatedValues(uint32_t diff)
   }
 }
 
-uint32_t getLightTime(uint32_t diff)
+int getLightTime(uint32_t diff)
 {
-  return max(0, diff * (diff * 37/480 - 1793/4) + 1122500/3);
+  return pow(diff / 1000.0, 4.0) * 1000;
 }
