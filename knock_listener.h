@@ -2,6 +2,7 @@
 #define KNOCK_LISTENER_H
 
 #include <Arduino.h>
+#include "debugger.h"
 
 /**
  * Executes when knock happens

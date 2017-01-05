@@ -13,11 +13,7 @@ void toggle230V()
 
 void change230V(boolean value)
 {
-  if (value) {
-    Serial.print("On\n");
-  } else {
-    Serial.print("Off\n");    
-  }
+  debug(2, "%s", value ? "On" : "Off");
   
   digitalWrite(LED, !value);
 }

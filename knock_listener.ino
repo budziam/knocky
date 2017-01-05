@@ -13,11 +13,12 @@ uint32_t last_knock = 0;
 uint32_t turn_off_at = 0;
 int light_step = 0;
 int turn_off_step = 0;
+boolean light_just_now = false;
 
 void knockListenerLoop()
 {
   if (turn_off_at > 0 && turn_off_at < millis()) {
-    Serial.print("Should turn off because of time\n");
+    debug(5, "Should turn off because of time");
     turnOff();
   }
 }
@@ -27,53 +28,51 @@ void onKnock()
   uint32_t now = millis();
   uint32_t diff = now - last_knock;
   
-  Serial.print("Knock: ");
-  Serial.print(now, DEC);
-  Serial.print("\n");
-  
   checkOutdatedValues(diff);
   
   analyzeLight(diff);
   
-  if (shouldTurnOff(diff)) {
-    Serial.print("Should turn off because of knock\n");
+  if (!light_just_now && shouldTurnOff(diff)) {
+    debug(5, "Should turn off because of knock");
     turnOff();
   }
   
   last_knock = now;
 }
 
-void analyzeLight(uint32_t diff)
+boolean analyzeLight(uint32_t diff)
 {
   switch (light_step) {
     case 0: 
       light_step = 1;
-      Serial.print("Light step 0 -> 1\n");
+      debug(5, "Light step 0 -> 1");
       break;
     
     case 1:
       if (diff < L1_MIN || L1_MAX < diff) {
         light_step = 0;
-        Serial.print("Light step 1 -> 0\n");
+        debug(5, "Light step 1 -> 0");
         break;
       }
       
-      Serial.print("Should switch on. Light step 2\n");
+      debug(5, "Should switch on");
+      debug(5, "Light step 1 -> 2");
+
       change230V(true);
       light_step = 2;
+      light_just_now = true;
       break;
        
     case 2:
       if (L2_MIN <= diff && diff <= L2_MAX) {
         uint32_t light_time = getLightTime(diff);
         turn_off_at = millis() + light_time;
-        Serial.print("It will turn off in ");
-        Serial.print(light_time, DEC);
-        Serial.print("ms\n");
+        debug(5, "Light step 2 -> 3");
+        light_step = 3;
+        
+        debug(2, "It will turn off in %ldms", light_time);
       }
       
-      light_step = 3;
-      Serial.print("Light step 2 -> 3\n");
       break;
   }
 }
@@ -85,12 +84,13 @@ boolean shouldTurnOff(uint32_t diff)
   }
   
   if (turn_off_step == 0) {
-    Serial.print("Turn off step 0 -> 1\n");
+    debug(5, "Turn off step 0 -> 1");
+    
     turn_off_step = 1;
     return false;
   }
   
-  Serial.print("Turn off step 1 -> 0\n");
+  debug(5, "Turn off step 1 -> 0");
   turn_off_step = 0;
   
   return TO1_MIN <= diff && diff <= TO1_MAX;
@@ -98,10 +98,10 @@ boolean shouldTurnOff(uint32_t diff)
 
 void turnOff()
 {
-  change230V(false);
   turn_off_at = 0;
   light_step = 0;
   turn_off_step = 0;
+  change230V(false);
 }
 
 /**
@@ -120,9 +120,11 @@ void checkOutdatedValues(uint32_t diff)
   else if (light_step == 2 && L2_MAX < diff) {
     light_step = 0;
   }
+  
+  light_just_now = false;
 }
 
 uint32_t getLightTime(uint32_t diff)
 {  
-  return round(pow(diff / 1000.0, 4.0) * 1000);
+  return (uint32_t) (pow(diff / 1000.0, 4.0) * 1000);
 }

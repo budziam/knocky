@@ -3,12 +3,19 @@
 #include "knock_detector.h"
 #include "knock_listener.h"
 
+KnockDetector *detectorX = 0;
+KnockDetector *detectorY = 0;
+KnockDetector *detectorZ = 0;
+
 void setup()
 {
   Serial.begin(9600);
   
+  detectorX = new KnockDetector('X');
+  detectorY = new KnockDetector('Y');
+  detectorZ = new KnockDetector('Z');
+  
   setupAccelerometer();
-  setupKnockDetector();
   setupActions();
 }
 
@@ -29,7 +36,11 @@ void analyzeAcceleratorValues()
   int x, y, z;
   getAxesValues(x, y, z);
   
-  knockDetectorPushValue(x, y, z);
+  if (detectorZ->push(z)) {
+    onKnock();
+  }
+  
+  //printAxis(x, y, z, true);
   
   previousMillis = millis();
 }
