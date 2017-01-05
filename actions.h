@@ -1,8 +1,6 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-#include "debugger.h"
-
 /**
  * Prepare everything to work properly
  */

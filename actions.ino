@@ -13,8 +13,6 @@ void toggle230V()
 
 void change230V(boolean value)
 {
-  debug(2, "%s", value ? "On" : "Off");
-  
   digitalWrite(LED, !value);
 }
 

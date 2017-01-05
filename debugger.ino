@@ -1,4 +1,4 @@
-#define DEBUG_LEVEL 4
+#define DEBUG_LEVEL 3
 
 #include <stdarg.h>
 #include <Arduino.h>

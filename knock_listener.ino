@@ -1,5 +1,4 @@
 #include "actions.h"
-#include "usefull.h"
 #include <math.h>
 
 #define L1_MIN 0
@@ -18,7 +17,7 @@ boolean light_just_now = false;
 void knockListenerLoop()
 {
   if (turn_off_at > 0 && turn_off_at < millis()) {
-    debug(5, "Should turn off because of time");
+    debug(2, "Turn off because of time");
     turnOff();
   }
 }
@@ -33,7 +32,7 @@ void onKnock()
   analyzeLight(diff);
   
   if (!light_just_now && shouldTurnOff(diff)) {
-    debug(5, "Should turn off because of knock");
+    debug(2, "Turn off because of knock");
     turnOff();
   }
   
@@ -55,7 +54,7 @@ boolean analyzeLight(uint32_t diff)
         break;
       }
       
-      debug(5, "Should switch on");
+      debug(2, "Turn on");
       debug(5, "Light step 1 -> 2");
 
       change230V(true);
