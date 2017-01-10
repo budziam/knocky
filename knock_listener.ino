@@ -66,6 +66,8 @@ boolean analyzeLight(uint32_t diff)
       if (L2_MIN <= diff && diff <= L2_MAX) {
         uint32_t light_time = getLightTime(diff);
         turn_off_at = millis() + light_time;
+        changeTimerIndicator(true);
+        
         debug(5, "Light step 2 -> 3");
         light_step = 3;
         
@@ -101,6 +103,7 @@ void turnOff()
   light_step = 0;
   turn_off_step = 0;
   change230V(false);
+  changeTimerIndicator(false);
 }
 
 /**

@@ -1,22 +1,28 @@
-#define LED 8
+#define LED8 8
+#define LED9 9
 
 void setupActions() 
 {
-  pinMode(LED, OUTPUT);
+  pinMode(LED8, OUTPUT);
   change230V(false);
 }
 
 void toggle230V()
 {
-  digitalWrite(LED, !digitalRead(LED));
+  digitalWrite(LED8, !digitalRead(LED8));
 }
 
 void change230V(boolean value)
 {
-  digitalWrite(LED, !value);
+  digitalWrite(LED8, !value);
 }
 
 boolean get230VStatus()
 {
-  return !digitalRead(LED);
+  return !digitalRead(LED8);
+}
+
+void changeTimerIndicator(boolean value)
+{
+  digitalWrite(LED9, !value);
 }

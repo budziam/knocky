@@ -21,4 +21,9 @@ void change230V(boolean value);
  */
 boolean get230VStatus();
 
+/**
+ * Change status of timer indicator
+ */ 
+void changeTimerIndicator(boolean value);
+
 #endif
