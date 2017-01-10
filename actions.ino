@@ -25,6 +25,5 @@ boolean get230VStatus()
 
 void changeTimerIndicator(boolean value)
 {
-  Serial.println("Dupadupa");
   digitalWrite(LED9, value);
 }
