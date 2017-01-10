@@ -4,6 +4,7 @@
 void setupActions() 
 {
   pinMode(LED8, OUTPUT);
+  pinMode(LED9, OUTPUT);
   change230V(false);
 }
 
@@ -24,5 +25,6 @@ boolean get230VStatus()
 
 void changeTimerIndicator(boolean value)
 {
-  digitalWrite(LED9, !value);
+  Serial.println("Dupadupa");
+  digitalWrite(LED9, value);
 }
